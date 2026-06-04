@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excelência no Atendimento — Perfumaria Teruya</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #3C3489;
+  --purple-mid: #534AB7;
+  --purple-light: #EEEDFE;
+  --purple-pale: #F5F4FF;
+  --teal: #1D9E75;
+  --teal-light: #E1F5EE;
+  --amber: #BA7517;
+  --amber-light: #FAEEDA;
+  --coral: #D85A30;
+  --coral-light: #FAECE7;
+  --text: #1a1825;
+  --text-mid: #4a4760;
+  --text-muted: #7a7890;
+  --border: rgba(60,52,137,0.12);
+  --border-mid: rgba(60,52,137,0.22);
+  --bg: #FAFAFA;
+  --card: #ffffff;
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* NAV */
+.nav {
+  background: var(--purple);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 58px; position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 20px rgba(60,52,137,0.25);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.nav-badge {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 13px; color: #fff; letter-spacing: 0.5px;
+}
+.nav-title { color: #fff; font-size: 15px; font-weight: 500; letter-spacing: -0.2px; }
+.nav-tabs { display: flex; gap: 2px; }
+.nav-tab {
+  padding: 6px 14px; border-radius: 99px;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  color: rgba(255,255,255,0.65);
+  border: none; background: transparent;
+  transition: all 0.15s;
+}
+.nav-tab.active, .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.15); }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--purple) 0%, #1e1870 60%, #2d2090 100%);
+  padding: 3rem 2rem 4rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(127,119,221,0.3) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(93,202,165,0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55); margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(26px, 5vw, 40px);
+  color: #fff; line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
+.hero h1 em { font-style: italic; color: #9fe1cb; }
+.hero-sub { color: rgba(255,255,255,0.65); font-size: 15px; max-width: 520px; margin: 0 auto 1.75rem; line-height: 1.6; }
+.hero-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.chip {
+  padding: 5px 14px; border-radius: 99px;
+  background: rgba(255,255,255,0.12); border: 0.5px solid rgba(255,255,255,0.2);
+  font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 500;
+}
+
+/* STATS */
+.stats-bar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: center; flex-wrap: wrap;
+}
+.stat {
+  padding: 1rem 2rem; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.stat-val { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--purple); }
+.stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; letter-spacing: 0.04em; }
+
+/* SECTIONS */
+.section { display: none; padding: 2rem; max-width: 820px; margin: 0 auto; }
+.section.active { display: block; }
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px; color: var(--purple); margin-bottom: 1.5rem;
+}
+
+/* MÓDULOS / PLAYLIST */
+.mod-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.mod-card:hover { box-shadow: 0 4px 20px rgba(60,52,137,0.08); border-color: var(--border-mid); }
+
+.mod-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 1rem 1.25rem; cursor: pointer; user-select: none;
+}
+.mod-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--purple-light); color: var(--purple);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px; flex-shrink: 0;
+}
+.mod-info { flex: 1; }
+.mod-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.mod-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.mod-chevron {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--text-muted);
+  transition: transform 0.2s, background 0.15s;
+  flex-shrink: 0;
+}
+.mod-card.open .mod-chevron { transform: rotate(180deg); background: var(--purple-light); color: var(--purple); }
+.mod-card.open .mod-header { background: var(--purple-pale); }
+.mod-card.open .mod-num { background: var(--purple); color: #fff; }
+
+.video-list { display: none; border-top: 1px solid var(--border); }
+.mod-card.open .video-list { display: block; }
+
+.video-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+.video-item:last-child { border-bottom: none; }
+.video-item:hover { background: var(--purple-pale); }
+
+.thumb {
+  width: 100px; height: 60px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative; overflow: hidden;
+}
+.thumb svg { width: 26px; height: 26px; opacity: 0.8; }
+.thumb-dur {
+  position: absolute; bottom: 4px; right: 4px;
+  background: rgba(0,0,0,0.7); color: #fff;
+  font-size: 10px; padding: 1px 5px; border-radius: 3px; font-weight: 500;
+}
+.thumb-bg-1 { background: #1a1a2e; }
+.thumb-bg-2 { background: #0d2416; }
+.thumb-bg-3 { background: #2e1010; }
+.thumb-bg-4 { background: #0d1e2e; }
+.thumb-bg-5 { background: #1e1e0d; }
+
+.video-info { flex: 1; min-width: 0; }
+.video-title { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 4px; }
+.video-channel { font-size: 12px; color: var(--purple-mid); font-weight: 500; }
+.video-tags { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.vtag {
+  font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.vtag-rec { background: var(--purple-light); color: var(--purple); }
+.vtag-free { background: var(--teal-light); color: var(--teal); }
+.vtag-dur { background: #f0f0f0; color: var(--text-muted); }
+
+.yt-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 8px; padding: 5px 12px; border-radius: 99px;
+  background: #FF0000; color: #fff;
+  font-size: 11px; font-weight: 600; text-decoration: none;
+  transition: opacity 0.15s;
+}
+.yt-btn:hover { opacity: 0.85; }
+.yt-btn svg { width: 13px; height: 13px; }
+
+/* QUIZ */
+.quiz-wrapper { }
+.quiz-mod-select {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem;
+}
+.qmod-btn {
+  padding: 6px 14px; border-radius: 99px; font-size: 13px; font-weight: 500;
+  border: 1px solid var(--border-mid); background: var(--card); color: var(--text-muted);
+  cursor: pointer; transition: all 0.15s;
+}
+.qmod-btn.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+.qmod-btn:hover:not(.active) { border-color: var(--purple); color: var(--purple); }
+
+.quiz-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem;
+}
+.quiz-progress {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem;
+}
+.progress-dots { display: flex; gap: 5px; }
+.pdot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border-mid);
+  transition: background 0.2s;
+}
+.pdot.done { background: var(--teal); }
+.pdot.active { background: var(--purple); width: 20px; border-radius: 99px; }
+.progress-txt { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+.quiz-q { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.5; margin-bottom: 1rem; }
+.quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-mid); background: var(--bg);
+  cursor: pointer; font-size: 13px; color: var(--text);
+  transition: all 0.15s;
+}
+.quiz-opt:hover { border-color: var(--purple); background: var(--purple-pale); }
+.quiz-opt.correct { border-color: var(--teal); background: var(--teal-light); color: #085041; font-weight: 500; }
+.quiz-opt.wrong { border-color: var(--coral); background: var(--coral-light); color: #4A1B0C; }
+.opt-letter {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  background: var(--border); display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--text-muted);
+}
+.quiz-opt.correct .opt-letter { background: var(--teal); color: #fff; }
+.quiz-opt.wrong .opt-letter { background: var(--coral); color: #fff; }
+
+.quiz-feedback {
+  margin-top: 12px; padding: 10px 14px;
+  border-radius: var(--radius-sm); font-size: 13px; display: none; line-height: 1.5;
+}
+.feedback-ok { background: var(--teal-light); color: #085041; border: 1px solid #5DCAA5; }
+.feedback-err { background: var(--coral-light); color: #4A1B0C; border: 1px solid #F0997B; }
+
+.quiz-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+.q-score { font-size: 13px; color: var(--text-muted); }
+.btn-next {
+  padding: 8px 20px; border-radius: 99px;
+  background: var(--purple); color: #fff; font-size: 13px; font-weight: 600;
+  border: none; cursor: pointer; display: none; transition: opacity 0.15s;
+}
+.btn-next:hover { opacity: 0.85; }
+
+.result-card {
+  background: var(--purple);
+  border-radius: var(--radius); padding: 2rem; text-align: center;
+  color: #fff; display: none; margin-bottom: 1rem;
+}
+.result-score { font-family: 'DM Serif Display', serif; font-size: 48px; color: #9fe1cb; }
+.result-label { font-size: 16px; margin-top: 4px; opacity: 0.85; }
+.result-msg { font-size: 13px; opacity: 0.65; margin-top: 8px; }
+.btn-retry {
+  display: inline-block; margin-top: 1rem; padding: 8px 22px;
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 99px; color: #fff; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-retry:hover { background: rgba(255,255,255,0.3); }
+
+/* PLANO 30 DIAS */
+.plano-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.semana-card {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.semana-head {
+  padding: 10px 14px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.semana-body { background: var(--card); padding: 12px 14px; }
+.semana-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.semana-item:last-child { border-bottom: none; }
+.day-label { font-weight: 600; color: var(--purple); flex-shrink: 0; width: 32px; }
+.s1 .semana-head { background: var(--purple); color: #fff; }
+.s2 .semana-head { background: var(--teal); color: #fff; }
+.s3 .semana-head { background: var(--amber); color: #fff; }
+.s4 .semana-head { background: var(--coral); color: #fff; }
+
+/* CERTIFICADO */
+.cert-wrap { text-align: center; }
+.cert-box {
+  display: inline-block;
+  border: 3px solid var(--purple);
+  border-radius: var(--radius);
+  padding: 3rem 2.5rem;
+  max-width: 580px; width: 100%;
+  background: var(--card);
+  position: relative; overflow: hidden;
+}
+.cert-box::before {
+  content: '';
+  position: absolute; inset: 8px;
+  border: 1px solid rgba(60,52,137,0.2);
+  border-radius: calc(var(--radius) - 4px);
+  pointer-events: none;
+}
+.cert-logo { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 0.5rem; }
+.cert-sub { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
+.cert-title { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--text-muted); margin-bottom: 0.5rem; }
+.cert-name-field {
+  font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--purple);
+  border: none; border-bottom: 2px solid var(--border-mid);
+  width: 100%; text-align: center; background: transparent; margin-bottom: 1.5rem;
+  outline: none; padding: 4px 0;
+}
+.cert-name-field:focus { border-bottom-color: var(--purple); }
+.cert-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 380px; margin: 0 auto 1.75rem; }
+.cert-footer { display: flex; justify-content: space-around; margin-top: 1.5rem; }
+.cert-sign { text-align: center; }
+.cert-line { width: 120px; height: 1px; background: var(--text-muted); margin: 0 auto 4px; }
+.cert-sign-name { font-size: 12px; color: var(--text-muted); }
+.cert-badge {
+  display: inline-block; margin-bottom: 1.5rem;
+  background: var(--purple-light); color: var(--purple);
+  padding: 4px 16px; border-radius: 99px; font-size: 12px; font-weight: 600;
+}
+.btn-print {
+  display: inline-block; margin-top: 1.5rem; padding: 10px 28px;
+  background: var(--purple); color: #fff; border-radius: 99px;
+  font-size: 14px; font-weight: 600; cursor: pointer; border: none;
+  transition: opacity 0.15s;
+}
+.btn-print:hover { opacity: 0.85; }
+
+/* FOOTER */
+footer {
+  margin-top: 4rem; padding: 2rem;
+  text-align: center; font-size: 12px; color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+
+@media print {
+  .nav, .nav-tabs, .stats-bar, #section-playlist, #section-quiz, #section-plano { display: none !important; }
+  #section-cert { display: block !important; }
+  .cert-box { border: 3px solid #3C3489 !important; }
+}
+
+@media (max-width: 600px) {
+  .nav-title { font-size: 13px; }
+  .hero { padding: 2rem 1.25rem 3rem; }
+  .section { padding: 1.25rem; }
+  .stat { padding: 0.75rem 1rem; }
+  .cert-box { padding: 2rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-badge">PT</div>
+    <span class="nav-title">Perfumaria Teruya</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('playlist')">Playlist</button>
+    <button class="nav-tab" onclick="showSection('quiz')">Quiz</button>
+    <button class="nav-tab" onclick="showSection('plano')">Plano 30 dias</button>
+    <button class="nav-tab" onclick="showSection('cert')">Certificado</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <span class="hero-eyebrow">Perfumaria Teruya · 36 anos de excelência</span>
+  <h1>Excelência no<br><em>Atendimento</em></h1>
+  <p class="hero-sub">Curso completo para gerentes treinarem suas equipes. 11 módulos com vídeos selecionados, quizzes interativos e plano de implementação.</p>
+  <div class="hero-chips">
+    <span class="chip">11 módulos</span>
+    <span class="chip">Quizzes interativos</span>
+    <span class="chip">Vídeos gratuitos</span>
+    <span class="chip">Plano 30 dias</span>
+    <span class="chip">Certificado digital</span>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-val">11</div><div class="stat-lbl">módulos</div></div>
+  <div class="stat"><div class="stat-val">22</div><div class="stat-lbl">vídeos curados</div></div>
+  <div class="stat"><div class="stat-val">55</div><div class="stat-lbl">perguntas de quiz</div></div>
+  <div class="stat"><div class="stat-val">20</div><div class="stat-lbl">lojas Teruya</div></div>
+  <div class="stat"><div class="stat-val">36</div><div class="stat-lbl">anos de mercado</div></div>
+</div>
+
+<!-- PLAYLIST -->
+<div id="section-playlist" class="section active">
+  <p class="section-title">Playlist de Vídeos por Módulo</p>
+  <div id="playlist-container"></div>
+</div>
+
+<!-- QUIZ -->
+<div id="section-quiz" class="section">
+  <p class="section-title">Quiz de Verificação</p>
+  <div class="quiz-mod-select" id="quiz-tabs"></div>
+  <div class="result-card" id="result-card">
+    <div class="result-score" id="result-score">0/5</div>
+    <div class="result-label" id="result-label">Resultado do módulo</div>
+    <div class="result-msg" id="result-msg"></div>
+    <button class="btn-retry" onclick="retryQuiz()">Tentar novamente</button>
+  </div>
+  <div class="quiz-card" id="quiz-card">
+    <div class="quiz-progress">
+      <div class="progress-dots" id="pdots"></div>
+      <span class="progress-txt" id="prog-txt">1 de 5</span>
+    </div>
+    <div class="quiz-q" id="quiz-q"></div>
+    <div class="quiz-opts" id="quiz-opts"></div>
+    <div class="quiz-feedback" id="quiz-fb"></div>
+    <div class="quiz-actions">
+      <span class="q-score" id="q-score">Acertos: 0</span>
+      <button class="btn-next" id="btn-next" onclick="nextQ()">Próxima →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PLANO 30 DIAS -->
+<div id="section-plano" class="section">
+  <p class="section-title">Plano de 30 Dias para Gerentes</p>
+  <div class="plano-grid" id="plano-grid"></div>
+</div>
+
+<!-- CERTIFICADO -->
+<div id="section-cert" class="section">
+  <p class="section-title">Certificado de Conclusão</p>
+  <div class="cert-wrap">
+    <div class="cert-box">
+      <div class="cert-logo">Perfumaria Teruya</div>
+      <div class="cert-sub">Desde 1989 · 36 anos de excelência em beleza</div>
+      <div class="cert-badge">Certificado de Conclusão</div>
+      <div class="cert-title">Certificamos que</div>
+      <input class="cert-name-field" id="cert-name" type="text" placeholder="Digite o nome do colaborador" />
+      <div class="cert-desc">concluiu com êxito o curso <strong>Excelência no Atendimento — Perfumaria Teruya</strong>, composto por 11 módulos sobre cultura de atendimento, vendas consultivas, inteligência emocional e liderança no varejo de beleza.</div>
+      <div class="cert-footer">
+        <div class="cert-sign">
+          <div class="cert-line"></div>
+          <div class="cert-sign-name">Diretora Kátia<br>Perfumaria Teruya</div>
+        </div>
+        <div class="cert-sign">
+          <div class="cert-line"></div>
+          <div class="cert-sign-name">Gerente da Loja<br>Perfumaria Teruya</div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+  </div>
+</div>
+
+<footer>
+  Perfumaria Teruya · Curso Excelência no Atendimento · Material exclusivo para gerentes e equipes
+</footer>
+
+<script>
+// ---- DATA ----
+const modules = [
+  { num:1, name:"A cultura Teruya de atendimento", desc:"O que significa ser consultor Teruya. Os 36 anos de história e orgulho de pertencer à equipe.", videos:[
+    { title:"Do atendimento ao encantamento: o poder da experiência do cliente", channel:"Talento em Foco", dur:"25 min", rec:true, url:"https://www.youtube.com/watch?v=l4hAi6ASiBY", bg:"thumb-bg-1" },
+    { title:"5 técnicas de atendimento ao cliente — conexão e fidelização", channel:"Canal de Vendas BR", dur:"18 min", rec:false, url:"https://www.youtube.com/watch?v=LJdkpdukLxE", bg:"thumb-bg-2" },
+    { title:"Os 7 pecados do atendimento ao cliente — o que NÃO fazer", channel:"Treinamento Varejo", dur:"12 min", rec:false, url:"https://www.youtube.com/watch?v=4HhIDLHXK2c", bg:"thumb-bg-3" }
+  ]},
+  { num:2, name:"Abordagem ao cliente na loja", desc:"Como recepcionar nos primeiros 30 segundos. Linguagem corporal e frases que funcionam.", videos:[
+    { title:"Como fazer abordagem ao cliente na loja física e fidelizar", channel:"Varejo na Prática", dur:"22 min", rec:true, url:"https://www.youtube.com/watch?v=MiOG6a-zrDw", bg:"thumb-bg-4" },
+    { title:"Como lidar com clientes? Atendimento no dia a dia do varejo", channel:"Gazin Atacado", dur:"15 min", rec:false, url:"https://www.youtube.com/watch?v=5Ih2sVpvkQA", bg:"thumb-bg-5" }
+  ]},
+  { num:3, name:"Conhecimento de produto", desc:"Como conhecer todas as categorias: perfumes, maquiagem, cabelo, pele, higiene e acessórios.", videos:[
+    { title:"Treinamento de atendimento ao cliente — material completo para loja", channel:"Treinamento Vendas BR", dur:"45 min", rec:true, url:"https://www.youtube.com/watch?v=GzKA2YKR8Rc", bg:"thumb-bg-1" },
+    { title:"Curso de agente de vendas — abordagem e relacionamento com o cliente", channel:"Escola de Vendas", dur:"20 min", rec:false, url:"https://www.youtube.com/watch?v=mMPFJhJYp1s", bg:"thumb-bg-2" }
+  ]},
+  { num:4, name:"Venda consultiva e adicional", desc:"Como identificar oportunidades de produtos complementares e aumentar o ticket médio.", videos:[
+    { title:"O que é venda consultiva e como transformar seu time de vendas", channel:"Vendas B2B BR", dur:"28 min", rec:true, url:"https://m.youtube.com/watch?v=lTt1te0EuwI", bg:"thumb-bg-3" },
+    { title:"Palestra de vendas — atendimento ao cliente e técnicas práticas", channel:"Silvio Igor — Palestrante", dur:"35 min", rec:false, url:"https://www.youtube.com/watch?v=dweQQZkk95Y", bg:"thumb-bg-4" }
+  ]},
+  { num:5, name:"Atendimento no caixa", desc:"Agilidade e cordialidade. Produtos de última hora. Encerramento com fidelização.", videos:[
+    { title:"Domine o atendimento ao cliente e técnicas de vendas — Aula 01", channel:"UNOVA Cursos", dur:"30 min", rec:true, url:"https://www.youtube.com/watch?v=o5CbyGjTRI0", bg:"thumb-bg-5" },
+    { title:"Domine o atendimento ao cliente e técnicas de vendas — Aula 03", channel:"UNOVA Cursos", dur:"30 min", rec:false, url:"https://www.youtube.com/watch?v=J7DPyFgOkXw", bg:"thumb-bg-1" }
+  ]},
+  { num:6, name:"Atendimento pós-venda", desc:"Follow-up por WhatsApp. Pesquisa de satisfação. Transformar cliente eventual em fiel.", videos:[
+    { title:"Palestra de atendimento ao cliente — pós-venda e fidelização", channel:"Palestrante Motivacional BR", dur:"40 min", rec:true, url:"https://www.youtube.com/watch?v=fu2wDlHFYk8", bg:"thumb-bg-2" },
+    { title:"Domine atendimento e técnicas de vendas — Aula 13", channel:"UNOVA Cursos", dur:"30 min", rec:false, url:"https://www.youtube.com/watch?v=r9U5QaP6f1A", bg:"thumb-bg-3" }
+  ]},
+  { num:7, name:"SAC e gestão de reclamações", desc:"Protocolo: ouvir, reconhecer, resolver, agradecer. Transformar experiência ruim em fidelização.", videos:[
+    { title:"Como lidar com clientes difíceis no varejo — dia a dia da loja", channel:"Gazin Atacado", dur:"15 min", rec:true, url:"https://www.youtube.com/watch?v=5Ih2sVpvkQA", bg:"thumb-bg-4" },
+    { title:"Os 7 pecados do atendimento — o que faz o cliente ir embora", channel:"Treinamento Varejo", dur:"12 min", rec:false, url:"https://www.youtube.com/watch?v=4HhIDLHXK2c", bg:"thumb-bg-5" }
+  ]},
+  { num:8, name:"Atendimento digital — WhatsApp e Instagram", desc:"Tom de voz correto no digital. Como transformar conversa em venda.", videos:[
+    { title:"Como vender pelo WhatsApp — estratégias e dicas completas (Playlist)", channel:"Thiago Concer", dur:"Playlist", rec:true, url:"https://www.youtube.com/playlist?list=PLvBSsez9ZyQy_sNxaoIGJV0gNtO6i3822", bg:"thumb-bg-1" },
+    { title:"5 técnicas de atendimento ao cliente no digital", channel:"Canal de Vendas BR", dur:"18 min", rec:false, url:"https://www.youtube.com/watch?v=LJdkpdukLxE", bg:"thumb-bg-2" }
+  ]},
+  { num:9, name:"Inteligência emocional no atendimento", desc:"Como manter energia ao longo do turno. Lidando com clientes difíceis sem perder a calma.", videos:[
+    { title:"Como vender mais com inteligência emocional — Rogerio Martins", channel:"Rogerio Martins", dur:"60 min", rec:true, url:"https://www.youtube.com/watch?v=T3Bpz3Q8pTA", bg:"thumb-bg-3" },
+    { title:"Inteligência emocional e liderança — Graziella Baida (VP Grupo Sinal)", channel:"Grupo Sinal", dur:"45 min", rec:false, url:"https://www.youtube.com/watch?v=VIHZB-JnmbI", bg:"thumb-bg-4" }
+  ]},
+  { num:10, name:"Diversidade e inclusão no atendimento", desc:"Como atender com respeito clientes de diferentes idades, gêneros e necessidades.", videos:[
+    { title:"Domine o atendimento ao cliente — diversidade e perfis de consumidores", channel:"UNOVA Cursos", dur:"30 min", rec:true, url:"https://www.youtube.com/watch?v=o5CbyGjTRI0", bg:"thumb-bg-5" },
+    { title:"Treinamento atendimento ao cliente — diferentes perfis e comportamentos", channel:"Treinamento Vendas BR", dur:"45 min", rec:false, url:"https://www.youtube.com/watch?v=GzKA2YKR8Rc", bg:"thumb-bg-1" }
+  ]},
+  { num:11, name:"O gerente como treinador da equipe", desc:"Como observar, dar feedback e usar indicadores para melhorar o atendimento.", videos:[
+    { title:"Palestra de vendas para líderes — como treinar sua equipe no varejo", channel:"Silvio Igor — Palestrante", dur:"35 min", rec:true, url:"https://www.youtube.com/watch?v=dweQQZkk95Y", bg:"thumb-bg-2" },
+    { title:"Inteligência emocional para líderes de equipe — Academia de Líderes", channel:"Academia de Líderes", dur:"50 min", rec:false, url:"https://www.youtube.com/watch?v=fhmccLVY4c0", bg:"thumb-bg-3" }
+  ]}
+];
+
+const quizzes = [
+  [
+    {q:"O que diferencia a Perfumaria Teruya de uma perfumaria tradicional?",opts:["Só vende perfumes importados","É um destino completo de beleza com mais de 10 categorias","Atende apenas clientes VIP","Tem o menor preço do mercado"],ans:1,exp:"A Teruya é um destino completo de beleza: perfumes, maquiagem, cabelo, pele, higiene, acessórios e muito mais."},
+    {q:"O que significa 'encantar' o cliente na cultura Teruya?",opts:["Dar desconto em tudo","Fazer o cliente se sentir único e bem atendido","Falar muito sobre os produtos","Atender rápido e deixar o cliente ir embora"],ans:1,exp:"Encantar é criar uma experiência memorável, não apenas concluir uma venda."},
+    {q:"Há quantos anos a Perfumaria Teruya está no mercado?",opts:["10 anos","20 anos","36 anos","50 anos"],ans:2,exp:"Fundada em 1989, a Teruya tem 36 anos de história e tradição no varejo de beleza."},
+    {q:"Qual é o principal diferencial de ter um mix amplo de produtos?",opts:["Deixa a loja mais bagunçada","Exige atendente bem preparado e gera mais oportunidades","Aumenta o tempo de espera","Dificulta o trabalho do caixa"],ans:1,exp:"O mix amplo é uma vantagem competitiva — mas exige que o atendente conheça todas as categorias."},
+    {q:"Em quantas lojas a Perfumaria Teruya está presente?",opts:["5","10","15","20"],ans:3,exp:"A Teruya tem 20 lojas em São Paulo e Região Metropolitana, incluindo Guarulhos e Mauá."}
+  ],
+  [
+    {q:"Qual é o tempo ideal para abordar um cliente que entrou na loja?",opts:["5 minutos","Apenas quando ele pedir","Nos primeiros 30 segundos","Quando ele estiver pronto para pagar"],ans:2,exp:"A abordagem nos primeiros 30 segundos cria uma boa primeira impressão e mostra presença."},
+    {q:"Como saber se o cliente prefere explorar sozinho?",opts:["Perguntar: 'Quer que eu vá embora?'","Observar linguagem corporal e dar espaço mantendo presença","Não falar nada","Chamar o gerente sempre"],ans:1,exp:"Observar a linguagem corporal ajuda a perceber quando o cliente quer ajuda ou prefere explorar."},
+    {q:"Qual frase é mais adequada para abordar um cliente?",opts:["'Posso te ajudar?'","'Bom dia! Bem-vinda à Teruya. Está procurando algo especial?'","'O que você quer?'","'Já escolheu?'"],ans:1,exp:"Uma saudação calorosa e personalizada abre a conversa de forma positiva."},
+    {q:"O que o sorriso transmite no atendimento presencial?",opts:["Que o atendente está ocioso","Acolhimento, confiança e disposição para ajudar","Que o produto é caro","Nada relevante"],ans:1,exp:"O sorriso é a primeira linguagem do atendimento — transmite calor humano e profissionalismo."},
+    {q:"Uma frase que AFASTA o cliente é:",opts:["'Posso te indicar algo?'","'Esse produto é incrível!'","'Não sei, não é minha área'","'Me conta o que você está buscando?'"],ans:2,exp:"Dizer 'não sei' sem buscar ajuda transmite despreparo e desinteresse."}
+  ],
+  [
+    {q:"Por que o atendente Teruya deve conhecer todas as categorias da loja?",opts:["Para impressionar o gerente","Para atender qualquer cliente com segurança e gerar vendas cruzadas","Para memorizar todos os preços","Não é necessário"],ans:1,exp:"Um atendente que conhece todas as categorias atende com confiança e aproveita oportunidades de venda cruzada."},
+    {q:"Quando o cliente diz 'não sei o que quero', qual é a melhor postura?",opts:["Deixar ele olhar sozinho","Fazer perguntas abertas para entender o contexto e necessidade","Mostrar os produtos mais caros","Chamar o supervisor"],ans:1,exp:"Perguntas como 'é para uso diário ou ocasião especial?' ajudam a direcionar o cliente."},
+    {q:"Como apresentar um produto de forma eficaz?",opts:["Apenas falar o preço","Mostrar a embalagem e deixar o cliente sozinho","Destacar o benefício e, se possível, demonstrar","Ler a bula do produto"],ans:2,exp:"Benefício + demonstração = venda. O cliente compra a transformação, não o produto."},
+    {q:"Quando o cliente diz 'está caro', o que fazer?",opts:["Dar desconto imediatamente","Ignorar o comentário","Entender o que o cliente valoriza e apresentar o custo-benefício","Encerrar o atendimento"],ans:2,exp:"Explorar o valor percebido é mais eficaz do que simplesmente reduzir o preço."},
+    {q:"Qual pergunta ajuda a entender a necessidade do cliente em cabelos?",opts:["'Qual cor você quer?'","'Seu cabelo é natural ou tingido? Qual é o seu principal objetivo agora?'","'Você tem dinheiro para comprar?'","'Já usou esse produto antes?'"],ans:1,exp:"Perguntas contextuais revelam a necessidade real e permitem uma indicação certeira."}
+  ],
+  [
+    {q:"Uma cliente compra tintura de cabelo. O que oferecer naturalmente como complemento?",opts:["Um perfume","Ampola, luvas e touca térmica","Esmalte","Móveis"],ans:1,exp:"Esses produtos completam o ritual de coloração e agregam valor real para a cliente."},
+    {q:"Como aumentar o ticket médio sem pressionar o cliente?",opts:["Insistir até o cliente ceder","Fazer ofertas de forma natural, mostrando benefícios complementares","Só oferecer itens em promoção","Nunca oferecer nada além do que foi pedido"],ans:1,exp:"A venda adicional bem feita parece uma consultoria, não uma pressão."},
+    {q:"Venda cruzada significa:",opts:["Vender o produto mais caro","Oferecer produtos de categorias diferentes que se complementam","Dar dois produtos pelo preço de um","Trocar um produto por outro"],ans:1,exp:"Cruzar categorias (ex: maquiagem + skincare) amplia o carrinho e satisfaz o cliente."},
+    {q:"Qual é o momento ideal para sugerir um produto adicional?",opts:["Só quando o cliente já for embora","Durante o atendimento, quando o contexto surgir naturalmente","No caixa, de forma agressiva","Nunca"],ans:1,exp:"O momento ideal é quando a necessidade já foi identificada — a sugestão parece um conselho."},
+    {q:"O que é ticket médio?",opts:["O tempo médio de atendimento","O valor médio gasto por cliente em cada compra","O número de clientes por dia","A quantidade de produtos em estoque"],ans:1,exp:"Aumentar o ticket médio é uma das formas mais eficientes de crescer sem precisar de mais clientes."}
+  ],
+  [
+    {q:"O que NÃO fazer no caixa para manter agilidade e cordialidade?",opts:["Sorrir e agradecer","Oferecer um produto pequeno em promoção","Fazer longa conversa sobre assuntos pessoais","Perguntar se quer embalagem para presente"],ans:2,exp:"O caixa deve ser ágil. Longas conversas criam fila e incomodam os próximos clientes."},
+    {q:"Qual é o melhor momento para convidar o cliente a seguir as redes sociais da Teruya?",opts:["Só por e-mail","No encerramento do atendimento no caixa","Nunca","Apenas para clientes VIP"],ans:1,exp:"O encerramento no caixa é o momento de fidelizar: redes sociais, e-commerce e convite para voltar."},
+    {q:"Por que oferecer embalagem para presente no caixa?",opts:["Para aumentar o preço","Para gerar uma experiência de compra mais completa e memorável","Porque é obrigatório","Para demorar mais tempo"],ans:1,exp:"A embalagem para presente eleva a percepção de valor e cria uma experiência encantadora."},
+    {q:"Qual produto é ideal para oferecer no caixa como impulso?",opts:["Um móvel","Um esmalte, acessório ou item pequeno em promoção","Um perfume de luxo","Nada, o cliente já escolheu"],ans:1,exp:"Itens de baixo valor e alta visibilidade no caixa funcionam muito bem como compra por impulso."},
+    {q:"Como encerrar bem um atendimento no caixa?",opts:["Dizer 'próximo' sem olhar para o cliente","Agradecer pelo nome, convidar para voltar e mencionar o e-commerce","Entregar a sacola em silêncio","Perguntar se tem cupom de desconto"],ans:1,exp:"Um encerramento personalizado e acolhedor é o que o cliente leva na memória."}
+  ],
+  [
+    {q:"Qual é o objetivo do follow-up por WhatsApp após uma compra maior?",opts:["Oferecer mais produtos imediatamente","Verificar satisfação e estreitar o relacionamento","Cobrar uma avaliação positiva","Só serve para reclamações"],ans:1,exp:"O follow-up mostra cuidado genuíno e é a base da fidelização."},
+    {q:"Como transformar um cliente eventual em fiel?",opts:["Dar desconto sempre","Registrar preferências e personalizar o próximo atendimento","Ligar todo dia","Ignorar e esperar ele voltar"],ans:1,exp:"Personalização + constância = fidelidade. O cliente sente que é lembrado e especial."},
+    {q:"O que é uma pesquisa de satisfação simples no contexto da loja?",opts:["Um questionário longo com 50 perguntas","Uma pergunta rápida como 'como foi sua experiência hoje?'","Pedir para o cliente avaliar no Google obrigatoriamente","Nenhuma das alternativas"],ans:1,exp:"Uma pergunta simples gera feedback valioso sem incomodar o cliente."},
+    {q:"Por que registrar as preferências do cliente?",opts:["Para vender mais na força","Para personalizar o atendimento na próxima visita","Não há necessidade","Para enviar promoções em massa"],ans:1,exp:"Clientes que se sentem lembrados voltam. Essa é a essência da fidelização."},
+    {q:"O pós-venda começa quando?",opts:["Só quando o cliente reclamar","Logo após a venda ser concluída","Nunca, a venda é o fim do relacionamento","Apenas em datas comemorativas"],ans:1,exp:"O pós-venda começa imediatamente após a compra — é o início do próximo ciclo de relacionamento."}
+  ],
+  [
+    {q:"Qual é o protocolo correto ao receber uma reclamação?",opts:["Defender o produto e a loja","Ouvir, reconhecer, resolver e agradecer","Pedir para o cliente ligar mais tarde","Chamar a segurança"],ans:1,exp:"O protocolo ORRA (Ouvir, Reconhecer, Resolver, Agradecer) transforma crises em oportunidades."},
+    {q:"Por que nunca devemos nos defender antes de ouvir o cliente?",opts:["Porque é proibido por lei","Porque invalida o sentimento do cliente e agrava o conflito","Por educação apenas","Não tem motivo"],ans:1,exp:"Ouvir primeiro demonstra respeito e cria abertura para a solução."},
+    {q:"Como transformar uma experiência ruim em fidelização?",opts:["Dar um produto de graça sempre","Resolver com agilidade, empatia e surpreender positivamente","Ignorar a reclamação","Pedir que ele não volte mais"],ans:1,exp:"Uma reclamação bem resolvida cria um vínculo mais forte do que uma compra sem problemas."},
+    {q:"Qual o prazo ideal para responder uma reclamação no WhatsApp?",opts:["72 horas","1 semana","Até 4 horas no horário comercial","Nunca responder por WhatsApp"],ans:2,exp:"Agilidade é fundamental no digital — 4h é o máximo aceitável para respostas de SAC."},
+    {q:"Qual postura adotar ao responder uma reclamação nas redes sociais?",opts:["Deletar o comentário","Responder publicamente de forma empática e resolver em privado","Ignorar","Discutir publicamente"],ans:1,exp:"Resposta pública empática + resolução em privado é a melhor prática de gestão de crise digital."}
+  ],
+  [
+    {q:"Qual é o tom correto para responder clientes no WhatsApp da loja?",opts:["Formal e frio","Próximo, claro e ágil, com linguagem adequada ao canal","Cheio de gírias e emojis","Apenas áudios longos"],ans:1,exp:"No WhatsApp, o tom deve ser próximo e humano, mas profissional e objetivo."},
+    {q:"Quando usar áudio no atendimento pelo WhatsApp?",opts:["Sempre, é mais rápido","Nunca, é informal","Quando o texto seria muito longo e o cliente parece receptivo","Só para clientes VIP"],ans:2,exp:"Áudios funcionam quando o contexto é mais informal e a mensagem seria extensa em texto."},
+    {q:"Como transformar uma conversa no Instagram em venda?",opts:["Pedir o cartão de crédito pelo direct","Responder dúvidas com agilidade e direcionar para o site ou WhatsApp","Pedir para ir pessoalmente à loja","Ignorar dúvidas sobre preço"],ans:1,exp:"A jornada começa no social e termina no site ou na loja — é preciso conduzir esse caminho."},
+    {q:"O excesso de emojis em mensagens profissionais pode:",opts:["Aumentar as vendas","Transmitir falta de seriedade e dificultar a leitura","Ajudar a fidelizar","Nada, emojis são neutros"],ans:1,exp:"Use emojis com moderação — eles humanizam, mas em excesso prejudicam a credibilidade."},
+    {q:"Qual informação é essencial em toda resposta digital sobre produto?",opts:["A vida pessoal do atendente","Disponibilidade, preço e como adquirir (loja ou site)","Apenas o nome do produto","A história da empresa"],ans:1,exp:"O cliente precisa saber se tem o produto, quanto custa e como comprar — essas 3 infos fecham a venda."}
+  ],
+  [
+    {q:"O que é inteligência emocional no contexto do varejo?",opts:["Ser sempre sorridente, mesmo forçado","Reconhecer e gerenciar as próprias emoções para manter a qualidade do atendimento","Ignorar os problemas pessoais","Nunca demonstrar sentimentos"],ans:1,exp:"IE no varejo é a capacidade de manter o equilíbrio emocional mesmo em situações difíceis."},
+    {q:"Como lidar com um cliente agressivo sem perder a calma?",opts:["Ser agressivo de volta","Elevar a voz para mostrar autoridade","Respirar fundo, manter tom calmo e buscar solução objetiva","Chamar a polícia imediatamente"],ans:2,exp:"A calma é a ferramenta mais poderosa diante da agressividade."},
+    {q:"Por que manter a energia ao longo do turno é um desafio?",opts:["Porque o trabalho é fácil demais","Porque o contato constante com pessoas exige esforço emocional contínuo","Porque o salário é baixo","Não é um desafio"],ans:1,exp:"O varejo é emocionalmente intenso — cuidar da energia própria é uma responsabilidade profissional."},
+    {q:"O autoconhecimento ajuda o atendente a:",opts:["Trabalhar mais horas","Identificar seus gatilhos emocionais e evitar reações impulsivas","Vender mais sem esforço","Não é necessário"],ans:1,exp:"Quem se conhece sabe quando está perto do limite e consegue se regular antes de comprometer o atendimento."},
+    {q:"Uma técnica simples para recuperar o foco durante o turno é:",opts:["Tomar café excessivamente","Fazer uma pausa consciente de 2-3 minutos para respirar e se reorientar","Ignorar os clientes por um tempo","Pedir para sair mais cedo"],ans:1,exp:"Pausas breves e conscientes restauram o foco — são uma ferramenta de alta performance, não preguiça."}
+  ],
+  [
+    {q:"Como atender um cliente que compra para presentear sem fazer suposições?",opts:["Perguntar para quem é e o que a pessoa gosta","Indicar o produto mais caro","Assumir que é para mulher","Deixar o cliente escolher sozinho"],ans:0,exp:"Perguntar antes de assumir evita erros e demonstra atenção genuína."},
+    {q:"Linguagem inclusiva no atendimento significa:",opts:["Usar gírias para parecer próximo","Usar termos neutros e respeitosos, sem estereótipos de gênero ou perfil","Falar devagar com idosos","Ignorar diferenças culturais"],ans:1,exp:"Linguagem inclusiva cria um ambiente acolhedor para todos os perfis de clientes."},
+    {q:"Como atender bem um cliente com deficiência visual na loja?",opts:["Falar mais alto","Ignorar, pois não conseguirá ver os produtos","Descrever verbalmente os produtos com detalhes e oferecer apoio","Chamar um colega para atender no lugar"],ans:2,exp:"Adaptação + respeito + descrição detalhada = excelência no atendimento inclusivo."},
+    {q:"Um cliente mais idoso merece:",opts:["Atendimento mais rápido","O mesmo respeito e atenção de qualquer cliente, com paciência e clareza","Ser direcionado ao caixa imediatamente","Desconto obrigatório"],ans:1,exp:"Todos os clientes merecem o mesmo nível de excelência — adaptado às suas necessidades individuais."},
+    {q:"Por que a diversidade no atendimento é uma vantagem competitiva?",opts:["Não é uma vantagem","Clientes de todos os perfis se sentem bem-vindos e tendem a voltar","Reduz o custo da loja","Exige menos treinamento"],ans:1,exp:"Lojas inclusivas conquistam mais clientes e constroem reputação positiva na comunidade."}
+  ],
+  [
+    {q:"O que é feedback construtivo?",opts:["Criticar o colaborador na frente da equipe","Apontar pontos de melhoria com exemplos concretos e orientações práticas","Só elogiar, nunca criticar","Ignorar erros"],ans:1,exp:"Feedback construtivo é específico, respeitoso e orientado para o crescimento."},
+    {q:"Qual indicador o gerente deve usar para medir a qualidade do atendimento?",opts:["Apenas o faturamento","NPS, nota Google e número de reclamações","Somente a quantidade de clientes","O tempo de almoço da equipe"],ans:1,exp:"NPS e nota Google revelam a percepção real do cliente — são os melhores termômetros do atendimento."},
+    {q:"Com que frequência o gerente deve realizar treinamentos com a equipe?",opts:["Só na contratação","Uma vez por ano","Regularmente, com rotinas semanais ou quinzenais","Nunca, a equipe já sabe tudo"],ans:2,exp:"Treinamento contínuo é o que transforma boas intenções em excelência consistente."},
+    {q:"Como observar o atendimento da equipe de forma eficaz?",opts:["Espionar sem que ninguém saiba","Observar in loco com critérios definidos e dar retorno logo depois","Só verificar pelo sistema de câmeras","Pedir que os clientes avaliem os atendentes"],ans:1,exp:"Observação estruturada + feedback imediato = aprendizado real e rápido."},
+    {q:"O gerente que treina bem sua equipe gera:",opts:["Mais trabalho para si mesmo","Autonomia na equipe, melhor atendimento e mais resultados para a loja","Dependência da equipe","Conflitos internos"],ans:1,exp:"Um gerente treinador multiplica seu impacto — cada atendente bem treinado é um legado seu."}
+  ]
+];
+
+const plano = [
+  { sem:"Semana 1", cls:"s1", dias:[
+    { d:"Dia 1-2", txt:"Módulo 1 — Cultura Teruya. Reunião de abertura com a equipe. Explique a visão do curso." },
+    { d:"Dia 3-4", txt:"Módulo 2 — Abordagem ao cliente. Roleplay: simule abordagens certas e erradas." },
+    { d:"Dia 5", txt:"Quiz dos módulos 1 e 2. Checklist de abordagem na loja. Feedback individual." }
+  ]},
+  { sem:"Semana 2", cls:"s2", dias:[
+    { d:"Dia 6-7", txt:"Módulo 3 — Conhecimento de produto. Tour pelas categorias: perfumes, maquiagem, cabelo." },
+    { d:"Dia 8-9", txt:"Módulo 4 — Venda consultiva e adicional. Prática: exercício de venda cruzada." },
+    { d:"Dia 10", txt:"Quiz módulos 3 e 4. Avaliar ticket médio antes x depois. Reforçar pontos fracos." }
+  ]},
+  { sem:"Semana 3", cls:"s3", dias:[
+    { d:"Dia 11-12", txt:"Módulo 5 — Atendimento no caixa. Praticar encerramento com convite para voltar." },
+    { d:"Dia 13-14", txt:"Módulos 6 e 7 — Pós-venda e SAC. Simular reclamação e aplicar protocolo ORRA." },
+    { d:"Dia 15", txt:"Quiz módulos 5, 6 e 7. Revisão de casos reais de reclamação da loja." }
+  ]},
+  { sem:"Semana 4", cls:"s4", dias:[
+    { d:"Dia 16-17", txt:"Módulos 8 e 9 — Digital e Inteligência Emocional. Avaliar respostas reais de WhatsApp." },
+    { d:"Dia 18-19", txt:"Módulos 10 e 11 — Diversidade e Gerente Treinador. Plano de feedback contínuo." },
+    { d:"Dia 20", txt:"Avaliação final. Entrega dos certificados. Celebração da equipe Teruya! 🎉" }
+  ]}
+];
+
+// ---- RENDER PLAYLIST ----
+function buildPlaylist() {
+  const container = document.getElementById('playlist-container');
+  modules.forEach((mod, i) => {
+    const card = document.createElement('div');
+    card.className = 'mod-card';
+    card.innerHTML = `
+      <div class="mod-header" onclick="toggleMod(this)">
+        <div class="mod-num">${mod.num}</div>
+        <div class="mod-info">
+          <div class="mod-name">${mod.name}</div>
+          <div class="mod-meta">${mod.desc}</div>
+        </div>
+        <div class="mod-chevron">▾</div>
+      </div>
+      <div class="video-list">
+        ${mod.videos.map(v => `
+          <div class="video-item">
+            <div class="thumb ${v.bg}">
+              <svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+              <span class="thumb-dur">${v.dur}</span>
+            </div>
+            <div class="video-info">
+              <div class="video-title">${v.title}</div>
+              <div class="video-channel">${v.channel}</div>
+              <div class="video-tags">
+                ${v.rec ? '<span class="vtag vtag-rec">⭐ Recomendado</span>' : ''}
+                <span class="vtag vtag-free">Gratuito</span>
+                <span class="vtag vtag-dur">${v.dur}</span>
+              </div>
+              <a class="yt-btn" href="${v.url}" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="white"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg>
+                Assistir no YouTube
+              </a>
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function toggleMod(header) {
+  const card = header.parentElement;
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.mod-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+// ---- QUIZ ----
+let curMod = 0, curQ = 0, correct = 0, answered = false;
+
+function buildQuizTabs() {
+  const wrap = document.getElementById('quiz-tabs');
+  modules.forEach((m, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'qmod-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = 'M' + m.num;
+    btn.title = m.name;
+    btn.onclick = () => { selectQuizMod(i); };
+    wrap.appendChild(btn);
+  });
+}
+
+function selectQuizMod(i) {
+  curMod = i; curQ = 0; correct = 0; answered = false;
+  document.querySelectorAll('.qmod-btn').forEach((b, idx) => b.classList.toggle('active', idx === i));
+  document.getElementById('result-card').style.display = 'none';
+  document.getElementById('quiz-card').style.display = 'block';
+  renderQ();
+}
+
+function renderQ() {
+  const q = quizzes[curMod][curQ];
+  answered = false;
+  document.getElementById('quiz-q').textContent = q.q;
+  document.getElementById('prog-txt').textContent = (curQ+1) + ' de 5';
+  document.getElementById('q-score').textContent = 'Acertos: ' + correct;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('btn-next').style.display = 'none';
+  const dots = document.getElementById('pdots');
+  dots.innerHTML = '';
+  for (let i = 0; i < 5; i++) {
+    const d = document.createElement('div');
+    d.className = 'pdot' + (i < curQ ? ' done' : i === curQ ? ' active' : '');
+    dots.appendChild(d);
+  }
+  const opts = document.getElementById('quiz-opts');
+  opts.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.opts.forEach((o, i) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-opt';
+    div.innerHTML = `<span class="opt-letter">${letters[i]}</span>${o}`;
+    div.onclick = () => selectOpt(i, div);
+    opts.appendChild(div);
+  });
+}
+
+function selectOpt(i, el) {
+  if (answered) return;
+  answered = true;
+  const q = quizzes[curMod][curQ];
+  const allOpts = document.querySelectorAll('.quiz-opt');
+  el.classList.add(i === q.ans ? 'correct' : 'wrong');
+  if (i === q.ans) correct++;
+  else allOpts[q.ans].classList.add('correct');
+  const fb = document.getElementById('quiz-fb');
+  fb.className = 'quiz-feedback ' + (i === q.ans ? 'feedback-ok' : 'feedback-err');
+  fb.textContent = (i === q.ans ? '✓ Correto! ' : '✗ Incorreto. ') + q.exp;
+  fb.style.display = 'block';
+  document.getElementById('q-score').textContent = 'Acertos: ' + correct;
+  document.getElementById('btn-next').style.display = 'inline-block';
+  document.getElementById('btn-next').textContent = curQ < 4 ? 'Próxima →' : 'Ver resultado →';
+}
+
+function nextQ() {
+  if (curQ < 4) { curQ++; renderQ(); }
+  else showResult();
+}
+
+function showResult() {
+  document.getElementById('quiz-card').style.display = 'none';
+  const rc = document.getElementById('result-card');
+  rc.style.display = 'block';
+  const pct = Math.round(correct / 5 * 100);
+  document.getElementById('result-score').textContent = correct + '/5';
+  document.getElementById('result-label').textContent = modules[curMod].name;
+  document.getElementById('result-msg').textContent = pct >= 80 ? '🏆 Excelente! A equipe está pronta para o próximo módulo.' : pct >= 60 ? '👍 Bom trabalho! Reveja os pontos errados antes de avançar.' : '📚 Recomendamos rever o módulo com a equipe antes de continuar.';
+}
+
+function retryQuiz() {
+  curQ = 0; correct = 0; answered = false;
+  document.getElementById('result-card').style.display = 'none';
+  document.getElementById('quiz-card').style.display = 'block';
+  renderQ();
+}
+
+// ---- PLANO ----
+function buildPlano() {
+  const grid = document.getElementById('plano-grid');
+  plano.forEach(s => {
+    const card = document.createElement('div');
+    card.className = `semana-card ${s.cls}`;
+    card.innerHTML = `<div class="semana-head">${s.sem}</div><div class="semana-body">${
+      s.dias.map(d => `<div class="semana-item"><span class="day-label">${d.d}</span><span>${d.txt}</span></div>`).join('')
+    }</div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ---- NAV ----
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t, i) => {
+    t.classList.toggle('active', ['playlist','quiz','plano','cert'][i] === id);
+  });
+}
+
+// ---- INIT ----
+buildPlaylist();
+buildQuizTabs();
+renderQ();
+buildPlano();
+document.querySelector('.mod-card .mod-header').click();
+</script>
+</body>
+</html>
